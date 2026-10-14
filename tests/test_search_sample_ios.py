@@ -20,7 +20,7 @@ if not USER or not KEY:
     )
 
 
-def test_successful_search():
+def test_open_article():
     options = XCUITestOptions()
 
     # Set your access credentials
@@ -36,9 +36,9 @@ def test_successful_search():
     options.set_capability("platformVersion", "16.0")
 
     # Set other BrowserStack capabilities
-    options.set_capability("project", "BrowserStack Sample")
+    options.set_capability("project", "First Python Project")
     options.set_capability("build", "browserstack-build-1")
-    options.set_capability("name", "first_test_ios")
+    options.set_capability("name", "open_article_ios")
 
     driver = webdriver.Remote(
         f"https://{USER}:{KEY}@hub.browserstack.com/wd/hub",
@@ -46,20 +46,26 @@ def test_successful_search():
     )
 
     try:
-        search_element = WebDriverWait(driver, 30).until(
-            EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia"))
-        )
-        search_element.click()
-        insert_text_element = WebDriverWait(driver, 30).until(
+        # Открываем первую статью в ленте
+        first_article = WebDriverWait(driver, 30).until(
             EC.element_to_be_clickable(
-                (AppiumBy.ID, "org.wikipedia.alpha:id/search_src_text")
+                (AppiumBy.XPATH, "(//XCUIElementTypeTable//XCUIElementTypeCell)[1]")
             )
         )
-        insert_text_element.send_keys("Appium")
-        time.sleep(5)
-        all_products_name = driver.find_elements(
-            AppiumBy.CLASS_NAME, "android.widget.TextView"
+        first_article.click()
+
+        # Ждём, пока статья откроется во встроенном браузере (webview)
+        WebDriverWait(driver, 30).until(
+            EC.presence_of_element_located(
+                (AppiumBy.CLASS_NAME, "XCUIElementTypeWebView")
+            )
         )
-        assert len(all_products_name) > 0
+        time.sleep(5)
+
+        # Проверяем, что на странице есть контент
+        all_texts = driver.find_elements(
+            AppiumBy.CLASS_NAME, "XCUIElementTypeStaticText"
+        )
+        assert len(all_texts) > 0
     finally:
         driver.quit()
