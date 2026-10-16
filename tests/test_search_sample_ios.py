@@ -1,5 +1,4 @@
 import os
-import time
 
 from appium import webdriver
 from appium.options.ios import XCUITestOptions
@@ -19,24 +18,38 @@ if not USER or not KEY:
         "Добавьте их в .env или в переменные окружения."
     )
 
+# Первая статья в ленте на экране Home.
+# Вместо абсолютного XPath (.../XCUIElementTypeCell[30]/...), который
+# скопирован из инспектора и ломается при любом изменении иерархии,
+# берём первую ячейку таблицы.
+FIRST_ARTICLE = (
+    AppiumBy.XPATH,
+    "(//XCUIElementTypeTable//XCUIElementTypeCell)[1]",
+)
+
+# Заголовок статьи внутри ячейки (первый StaticText ячейки)
+FIRST_ARTICLE_TITLE = (
+    AppiumBy.XPATH,
+    "(//XCUIElementTypeTable//XCUIElementTypeCell)[1]"
+    "//XCUIElementTypeStaticText[1]",
+)
+
+# Экран статьи (встроенный браузер)
+ARTICLE_WEBVIEW = (AppiumBy.CLASS_NAME, "XCUIElementTypeWebView")
+
 
 def test_open_article():
     options = XCUITestOptions()
 
-    # Set your access credentials
     options.set_capability("browserstack.user", USER)
     options.set_capability("browserstack.key", KEY)
+    options.set_capability("app", "bs://sample.app")  # <- подставьте URL вашего приложения
 
-    # Set URL of the application under test
-    options.set_capability("app", "bs://sample.app")
-
-    # Specify device and os_version for testing
-    options.set_capability("platformName", "ios")
+    options.set_capability("platformName", "iOS")
     options.set_capability("deviceName", "iPhone 14 Pro Max")
     options.set_capability("platformVersion", "16.0")
 
-    # Set other BrowserStack capabilities
-    options.set_capability("project", "First Python Project")
+    options.set_capability("project", "BrowserStack Sample")
     options.set_capability("build", "browserstack-build-1")
     options.set_capability("name", "open_article_ios")
 
@@ -45,27 +58,27 @@ def test_open_article():
         options=options,
     )
 
+    wait = WebDriverWait(driver, 30)
+
     try:
-        # Открываем первую статью в ленте
-        first_article = WebDriverWait(driver, 30).until(
-            EC.element_to_be_clickable(
-                (AppiumBy.XPATH, "(//XCUIElementTypeTable//XCUIElementTypeCell)[1]")
-            )
-        )
-        first_article.click()
+        # 1. Ждём, пока загрузится лента, и находим первую статью
+        article = wait.until(EC.element_to_be_clickable(FIRST_ARTICLE))
 
-        # Ждём, пока статья откроется во встроенном браузере (webview)
-        WebDriverWait(driver, 30).until(
-            EC.presence_of_element_located(
-                (AppiumBy.CLASS_NAME, "XCUIElementTypeWebView")
-            )
-        )
-        time.sleep(5)
+        # Запоминаем заголовок и исходный экран
+        title = wait.until(
+            EC.presence_of_element_located(FIRST_ARTICLE_TITLE)
+        ).text
+        previous_page = driver.page_source
 
-        # Проверяем, что на странице есть контент
-        all_texts = driver.find_elements(
-            AppiumBy.CLASS_NAME, "XCUIElementTypeStaticText"
+        # 2. Тапаем по статье
+        article.click()
+
+        # 3. Статья должна открыться в WebView
+        wait.until(EC.presence_of_element_located(ARTICLE_WEBVIEW))
+
+        # 4. Экран изменился, а лента (Home) больше не на переднем плане
+        assert driver.page_source != previous_page, (
+            f"После нажатия на статью «{title}» экран не изменился"
         )
-        assert len(all_texts) > 0
     finally:
         driver.quit()
