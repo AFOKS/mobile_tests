@@ -7,60 +7,63 @@
 Проект содержит набор автоматизированных тестов для мобильного приложения, написанных на Python с использованием фреймворка pytest.
 
 ## 📁 Структура проекта
-mobile_tests/
-├── tests/ # Директория с тестами
-├── .gitignore # Исключения Git
-├── pytest.ini # Конфигурация pytest
-├── requirements.txt # Зависимости проекта
-└── README.md # Документация
 
-text
+mobile_tests/
+├── tests/            # Директория с тестами
+├── .gitignore        # Исключения Git
+├── pytest.ini        # Конфигурация pytest
+├── requirements.txt  # Зависимости проекта
+└── README.md         # Документация
 
 ## 🚀 Установка и запуск
 
 ### 1. Клонирование репозитория
 
-```bash
 git clone https://github.com/AFOKS/mobile_tests.git
 cd mobile_tests
-2. Создание виртуального окружения
+
+### 2. Создание виртуального окружения
+
 bash
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
-# или
 venv\Scripts\activate     # Windows
-3. Установка зависимостей
-bash
-pip install -r requirements.txt
-4. Настройка переменных окружения
-Создайте файл .env в корне проекта (см. .gitignore — он уже добавлен в исключения):
 
-env
+### 3. Установка зависимостей
+
+pip install -r requirements.txt
+
+### 4. Настройка переменных окружения
+
 # Пример переменных окружения
 DEVICE_NAME=emulator-5554
 APP_PATH=/path/to/app.apk
 PLATFORM_NAME=Android
-5. Запуск тестов
-bash
+
+### 5. Запуск тестов
+
 pytest
+
 Для запуска с подробным выводом:
 
-bash
 pytest -v
+
 Запуск конкретного файла с тестами:
 
-bash
 pytest tests/test_example.py
 
 ## ⚙️ Конфигурация
+
 Настройки pytest находятся в файле pytest.ini.
 
 ## 📦 Зависимости
+
 Все зависимости перечислены в requirements.txt. Установить их можно командой:
 
-bash
 pip install -r requirements.txt
+
 ## 🤝 Вклад в проект
+
 Форкните репозиторий
 
 Создайте ветку для новой функции (git checkout -b feature/your-feature)
