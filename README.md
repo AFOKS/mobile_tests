@@ -1,20 +1,26 @@
 # mobile_tests
+
 Репозиторий с автотестами для мобильного приложения на Python + pytest.
 
-📋 Описание
+## 📋 Описание
+
 Проект содержит набор автоматизированных тестов для мобильного приложения, написанных на Python с использованием фреймворка pytest.
 
-📁 Структура проекта
-text
+## 📁 Структура проекта
 mobile_tests/
-├── tests/            # Директория с тестами
-├── .gitignore        # Исключения Git
-├── pytest.ini        # Конфигурация pytest
-├── requirements.txt  # Зависимости проекта
-└── README.md         # Документация
-🚀 Установка и запуск
-1. Клонирование репозитория
-bash
+├── tests/ # Директория с тестами
+├── .gitignore # Исключения Git
+├── pytest.ini # Конфигурация pytest
+├── requirements.txt # Зависимости проекта
+└── README.md # Документация
+
+text
+
+## 🚀 Установка и запуск
+
+### 1. Клонирование репозитория
+
+```bash
 git clone https://github.com/AFOKS/mobile_tests.git
 cd mobile_tests
 2. Создание виртуального окружения
@@ -45,15 +51,16 @@ pytest -v
 
 bash
 pytest tests/test_example.py
-⚙️ Конфигурация
+
+## ⚙️ Конфигурация
 Настройки pytest находятся в файле pytest.ini.
 
-📦 Зависимости
+## 📦 Зависимости
 Все зависимости перечислены в requirements.txt. Установить их можно командой:
 
 bash
 pip install -r requirements.txt
-🤝 Вклад в проект
+## 🤝 Вклад в проект
 Форкните репозиторий
 
 Создайте ветку для новой функции (git checkout -b feature/your-feature)
@@ -63,7 +70,3 @@ pip install -r requirements.txt
 Отправьте изменения в ветку (git push origin feature/your-feature)
 
 Откройте Pull Request
-
-Автор: AFOKS
-
-
