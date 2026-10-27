@@ -18,23 +18,17 @@ if not USER or not KEY:
         "Добавьте их в .env или в переменные окружения."
     )
 
-# Первая статья в ленте на экране Home.
-# Вместо абсолютного XPath (.../XCUIElementTypeCell[30]/...), который
-# скопирован из инспектора и ломается при любом изменении иерархии,
-# берём первую ячейку таблицы.
 FIRST_ARTICLE = (
     AppiumBy.XPATH,
     "(//XCUIElementTypeTable//XCUIElementTypeCell)[1]",
 )
 
-# Заголовок статьи внутри ячейки (первый StaticText ячейки)
 FIRST_ARTICLE_TITLE = (
     AppiumBy.XPATH,
     "(//XCUIElementTypeTable//XCUIElementTypeCell)[1]"
     "//XCUIElementTypeStaticText[1]",
 )
 
-# Экран статьи (встроенный браузер)
 ARTICLE_WEBVIEW = (AppiumBy.CLASS_NAME, "XCUIElementTypeWebView")
 
 

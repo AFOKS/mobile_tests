@@ -45,7 +45,6 @@ def test_successful_search():
         options=options,
     )
 
-    # skip onboarding screen (back)
     greeting_title = WebDriverWait(driver, 30).until(
         EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, "Wikipedia"))
     )
@@ -58,7 +57,6 @@ def test_successful_search():
     search_element.click()
 
     search_element = WebDriverWait(driver, 30).until(
-        # EC.element_to_be_clickable((AppiumBy.XPATH, "//android.view.View[@content-desc='Close']"))
         EC.element_to_be_clickable((AppiumBy.ACCESSIBILITY_ID, "Close"))
     )
     search_element.click()
@@ -73,7 +71,7 @@ def test_successful_search():
     )
     insert_text_element.send_keys("Appium")
 
-    time.sleep(5) # move from sleep
+    time.sleep(5)
 
     titles = WebDriverWait(driver, 30).until(
         EC.presence_of_element_located(
@@ -82,8 +80,5 @@ def test_successful_search():
     )
     titles = driver.find_elements(AppiumBy.CLASS_NAME, "android.widget.TextView")
     assert any("Appium" in (t.text or "") for t in titles)
-
-    # all_products_name = driver.find_elements(AppiumBy.CLASS_NAME, "android.widget.TextView")
-    # assert len(all_products_name) > 0
 
     driver.quit()

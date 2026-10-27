@@ -23,19 +23,15 @@ if not USER or not KEY:
 def test_successful_search():
     options = UiAutomator2Options()
 
-    # Set your access credentials
     options.set_capability("browserstack.user", USER)
     options.set_capability("browserstack.key", KEY)
 
-    # Set URL of the application under test
     options.set_capability("app", "bs://sample.app")
 
-    # Specify device and os_version for testing
     options.set_capability("platformName", "android")
     options.set_capability("deviceName", "Samsung Galaxy S22 Ultra")
     options.set_capability("platformVersion", "12.0")
 
-    # Set other BrowserStack capabilities
     options.set_capability("project", "First Python Project")
     options.set_capability("build", "browserstack-build-1")
     options.set_capability("name", "first_test")
